@@ -3,7 +3,7 @@ s#!/usr/bin/python3
 Script de comprobación de entrega de ejercicio
 
 Para ejecutarlo, desde la shell:
- $ python3 check.py login_github
+ $ python3 check.py login_laboratorio
 
 """
 
@@ -11,7 +11,7 @@ import os
 import random
 import sys
 
-ejercicio = 'X-Serv-16.3-contentPutApp'
+ejercicio = 'x-serv-16.3-contentputapp'
 
 student_files = []
 
@@ -29,7 +29,7 @@ files = student_files + repo_files
 
 if len(sys.argv) != 2:
     print()
-    sys.exit("Usage: $ python3 check.py login_github")
+    sys.exit("Usage: $ python3 check.py login_laboratorio")
 
 repo_git = "http://gitlab.etsit.urjc.es/" + sys.argv[1] + "/" + ejercicio
 
