@@ -1,11 +1,9 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
+s#!/usr/bin/python3
 """
 Script de comprobación de entrega de ejercicio
 
 Para ejecutarlo, desde la shell:
- $ python check.py login_github
+ $ python3 check.py login_github
 
 """
 
@@ -31,9 +29,9 @@ files = student_files + repo_files
 
 if len(sys.argv) != 2:
     print()
-    sys.exit("Usage: $ python check.py login_github")
+    sys.exit("Usage: $ python3 check.py login_github")
 
-repo_git = "http://github.com/" + sys.argv[1] + "/" + ejercicio
+repo_git = "http://gitlab.etsit.urjc.es/" + sys.argv[1] + "/" + ejercicio
 
 
 aleatorio = str(int(random.random() * 1000000))
