@@ -12,7 +12,19 @@
 
 import webapp
 
-
+formulario = """
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <p>Hola mundo</p>
+    <form action="/" method="PUT">
+      <input name="content" type="text" />
+      <input name="texto" type="text" />
+    <input type="submit" value="Submit" />
+    </form>
+  </body>
+</html>
+"""
 class contentApp (webapp.webApp):
     """Simple web application for managing content.
 
@@ -26,20 +38,32 @@ class contentApp (webapp.webApp):
 
     def parse(self, request):
         """Return the resource name (including /)"""
+        print(request, flush = True)
+        method = request.split(' ', 1)[0]
+        resource = request.split(' ', 2)[1]
+        if method == "PUT":
+            body = request.split('/r/n')[-1]
+        else:
+            body = None
+        return (method, resource, body)
 
-        return request.split(' ', 2)[1]
-
-    def process(self, resourceName):
+    def process(self, parsedRequest):
         """Process the relevant elements of the request.
 
         Finds the HTML text corresponding to the resource name,
         ignoring requests for resources not in the dictionary.
         """
+        method, resource, body = parsedRequest
 
-        if resourceName in self.content.keys():
+        if method == 'PUT':
+            page, content = body.split('&')
+            resource = page.split('=')[1]
+            content = content.split('=')[1]
+            self.content["/"+resource] = content
+
+        if resource in self.content:
             httpCode = "200 OK"
-            htmlBody = "<html><body>" + self.content[resourceName] \
-                + "</body></html>"
+            htmlBody = formulario
         else:
             httpCode = "404 Not Found"
             htmlBody = "Not Found"
