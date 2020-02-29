@@ -13,17 +13,12 @@
 import webapp
 
 formulario = """
-<!DOCTYPE html>
-<html lang="en">
-  <body>
     <p>Hola mundo</p>
-    <form action="/" method="PUT">
+    <form action="/" method="POST">
+      <input name="resource" type="text" />
       <input name="content" type="text" />
-      <input name="texto" type="text" />
     <input type="submit" value="Submit" />
     </form>
-  </body>
-</html>
 """
 class contentApp (webapp.webApp):
     """Simple web application for managing content.
@@ -32,17 +27,18 @@ class contentApp (webapp.webApp):
     with the web content."""
 
     # Declare and initialize content
-    content = {'/': 'Root page',
+    content = {'/': formulario,
                '/page': 'A page'
                }
 
     def parse(self, request):
         """Return the resource name (including /)"""
-        print(request, flush = True)
         method = request.split(' ', 1)[0]
         resource = request.split(' ', 2)[1]
-        if method == "PUT":
-            body = request.split('/r/n')[-1]
+        print("RECURSO")
+        print(resource)
+        if method == "POST":
+            body = request.splitlines()[-1]
         else:
             body = None
         return (method, resource, body)
@@ -55,15 +51,15 @@ class contentApp (webapp.webApp):
         """
         method, resource, body = parsedRequest
 
-        if method == 'PUT':
+        if method == 'POST':
             page, content = body.split('&')
-            resource = page.split('=')[1]
+            resource_request = page.split('=')[1]
             content = content.split('=')[1]
-            self.content["/"+resource] = content
-
+            self.content["/"+resource_request] = content
+            
         if resource in self.content:
             httpCode = "200 OK"
-            htmlBody = formulario
+            htmlBody = "<html><body>" + self.content[resource]+ "</body></html>"
         else:
             httpCode = "404 Not Found"
             htmlBody = "Not Found"
