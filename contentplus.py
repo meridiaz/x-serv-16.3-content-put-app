@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+#ejercicio como el anterior pero con put y post juntos
 """
  contentApp class
  Simple web application for managing content
@@ -10,10 +10,10 @@
  October 2009 - March 2015
 """
 
-import webapp
+import contentapp
 
 
-class contentApp (webapp.webApp):
+class contentPlus (contentapp.contentApp):
     """Simple web application for managing content.
 
     Content is stored in a dictionary, which is intialized
@@ -41,7 +41,7 @@ class contentApp (webapp.webApp):
 
         if method == 'PUT':
             self.content[resource] = value
-            
+
         #self.content equivalente a self.content.keys()
         if resourceName in self.content:
             httpCode = "200 OK"
@@ -54,4 +54,4 @@ class contentApp (webapp.webApp):
 
 
 if __name__ == "__main__":
-    testWebApp = contentApp("localhost", 1234)
+    testWebApp = contentPlus("localhost", 1234)
