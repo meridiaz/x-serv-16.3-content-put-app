@@ -14,7 +14,7 @@ import webapp
 
 formulario = """
     <p>Hola mundo</p>
-    <form action="/" method="POST">
+    <form action="/" method="PUT">
       <input name="resource" type="text" />
       <input name="content" type="text" />
     <input type="submit" value="Submit" />
@@ -37,7 +37,7 @@ class contentApp (webapp.webApp):
         resource = request.split(' ', 2)[1]
         print("RECURSO")
         print(resource)
-        if method == "POST":
+        if method == "PUT":
             body = request.splitlines()[-1]
         else:
             body = None
@@ -56,7 +56,7 @@ class contentApp (webapp.webApp):
             resource_request = page.split('=')[1]
             content = content.split('=')[1]
             self.content["/"+resource_request] = content
-            
+
         if resource in self.content:
             httpCode = "200 OK"
             htmlBody = "<html><body>" + self.content[resource]+ "</body></html>"
