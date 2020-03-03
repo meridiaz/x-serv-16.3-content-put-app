@@ -12,7 +12,14 @@
 
 import webapp
 
-
+formulario = """
+    <p>Hola mundo</p>
+    <form action="/" method="POST">
+      <input name="resource" type="text" />
+      <input name="content" type="text" />
+    <input type="submit" value="Submit" />
+    </form>
+"""
 class contentApp (webapp.webApp):
     """Simple web application for managing content.
 
@@ -20,28 +27,39 @@ class contentApp (webapp.webApp):
     with the web content."""
 
     # Declare and initialize content
-    content = {'/': 'Root page',
+    content = {'/': formulario,
                '/page': 'A page'
                }
 
     def parse(self, request):
         """Return the resource name (including /)"""
-        method = request.split()[0]
-        resource = request.split()[1]
-        body = request.split('\r\n\r\n', 1)[-1]
-        return request.split(' ', 2)[1]
+        method = request.split(' ', 1)[0]
+        resource = request.split(' ', 2)[1]
+        print("RECURSO")
+        print(resource)
+        if method == "POST":
+            body = request.splitlines()[-1]
+        else:
+            body = None
+        return (method, resource, body)
 
-    def process(self, resourceName):
+    def process(self, parsedRequest):
         """Process the relevant elements of the request.
 
         Finds the HTML text corresponding to the resource name,
         ignoring requests for resources not in the dictionary.
         """
+        method, resource, body = parsedRequest
 
-        if resourceName in self.content.keys():
+        if method == 'POST':
+            page, content = body.split('&')
+            resource_request = page.split('=')[1]
+            content = content.split('=')[1]
+            self.content["/"+resource_request] = content
+
+        if resource in self.content:
             httpCode = "200 OK"
-            htmlBody = "<html><body>" + self.content[resourceName] \
-                + "</body></html>"
+            htmlBody = "<html><body>" + self.content[resource]+ "</body></html>"
         else:
             httpCode = "404 Not Found"
             htmlBody = "Not Found"
