@@ -55,10 +55,12 @@ class contentPlus (contentapp.contentApp):
             self.content[resource] = body.split('=')[1]
 
         #self.content equivalente a self.content.keys()
+        #self.content[resourceName] \  idnica a pep8 que esa linea continua
+        #debajo
         if resourceName in self.content:
             httpCode = "200 OK"
-            htmlBody = "<html><body>" + self.content[resourceName] \ + formulario
-                + "</body></html>"
+            htmlBody = "<html><body>" + self.content[resourceName] \
+                + formulario   + "</body></html>"
         else:
             httpCode = "404 Not Found"
             htmlBody = "<html><body>" + "Not Found" + formulario + "</body></html>"
