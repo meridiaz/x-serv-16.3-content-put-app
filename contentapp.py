@@ -51,7 +51,7 @@ class contentApp (webapp.webApp):
         """
         method, resource, body = parsedRequest
 
-        if method == 'POST':
+        if method == 'PUT':
             page, content = body.split('&')
             resource_request = page.split('=')[1]
             content = content.split('=')[1]
