@@ -35,8 +35,6 @@ class contentApp (webapp.webApp):
         """Return the resource name (including /)"""
         method = request.split(' ', 1)[0]
         resource = request.split(' ', 2)[1]
-        print("RECURSO")
-        print(resource)
         if method == "PUT":
             body = request.splitlines()[-1]
         else:
