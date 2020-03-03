@@ -37,11 +37,11 @@ class contentApp (webapp.webApp):
         Finds the HTML text corresponding to the resource name,
         ignoring requests for resources not in the dictionary.
         """
-        method, resource, body = parsedRequest
+        method, resource, value = resourceName
 
         if method == 'PUT':
             self.content[resource] = value
-            
+
         #self.content equivalente a self.content.keys()
         if resourceName in self.content:
             httpCode = "200 OK"

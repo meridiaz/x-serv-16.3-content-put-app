@@ -11,8 +11,16 @@
 """
 
 import contentapp
+#el action indica a que recurso se envia el formualrio
+#si no se pone nada es la barra
+formulario = """
+<br/br>
+<form action="" method == "POST">
+    <input type= "text" name= "name" value ="">
+    <input type= "submit" value ="Enviar">
+</form>
 
-
+"""
 class contentPlus (contentapp.contentApp):
     """Simple web application for managing content.
 
@@ -37,19 +45,23 @@ class contentPlus (contentapp.contentApp):
         Finds the HTML text corresponding to the resource name,
         ignoring requests for resources not in the dictionary.
         """
-        method, resource, body = parsedRequest
+        method, resource, body = resourceName
 
         if method == 'PUT':
-            self.content[resource] = value
+            #el body es directamente el value
+            self.content[resource] = body
+        elif method == "POST":
+            #el body es el nombre de value, name=value
+            self.content[resource] = body.split('=')[1]
 
         #self.content equivalente a self.content.keys()
         if resourceName in self.content:
             httpCode = "200 OK"
-            htmlBody = "<html><body>" + self.content[resourceName] \
+            htmlBody = "<html><body>" + self.content[resourceName] \ + formulario
                 + "</body></html>"
         else:
             httpCode = "404 Not Found"
-            htmlBody = "Not Found"
+            htmlBody = "<html><body>" + "Not Found" + formulario + "</body></html>"
         return (httpCode, htmlBody)
 
 
